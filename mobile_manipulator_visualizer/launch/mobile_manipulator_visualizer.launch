@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="gui" default="true"/>
+    <arg name="is_gazebo" default="false"/>
+
+    <param name="robot_mock_description"
+           command="$(find xacro)/xacro.py '$(find mobile_manipulator_visualizer)/models/mico_bs.urdf.xacro'
+           is_gazebo:=$(arg is_gazebo)"/>
+    <param name="use_gui" value="$(arg gui)"/>
+    <node ns="state_manager" name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
+        <remap from="robot_description" to="robot_mock_description"/>
+    </node>
+</launch>

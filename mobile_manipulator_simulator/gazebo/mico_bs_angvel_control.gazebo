@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:include filename="$(find mobile_manipulator_visualizer)/models/config.xacro"/>
+    <xacro:include filename="$(find bs_simulator)/gazebo/blackship.gazebo"/>
+
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <robotNamespace>/mobile_manipulator_mock</robotNamespace>
+            <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+        </plugin>
+    </gazebo>
+
+    <!--===================================================-->
+    <!--===================================================-->
+    <!--===================================================-->
+
+    <xacro:macro name="joint_transmission" params="joint_name suffix">
+        <transmission name="tran_${suffix}">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="${joint_name}">
+                <hardwareInterface>VelocityJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="motor_${suffix}">
+                <hardwareInterface>VelocityJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+    </xacro:macro>
+
+    <xacro:joint_transmission joint_name="${joint_mico_1}" suffix="1"/>
+    <xacro:joint_transmission joint_name="${joint_mico_2}" suffix="2"/>
+    <xacro:joint_transmission joint_name="${joint_mico_3}" suffix="3"/>
+    <xacro:joint_transmission joint_name="${joint_mico_4}" suffix="4"/>
+    <xacro:joint_transmission joint_name="${joint_mico_5}" suffix="5"/>
+    <xacro:joint_transmission joint_name="${joint_mico_6}" suffix="6"/>
+
+</robot>

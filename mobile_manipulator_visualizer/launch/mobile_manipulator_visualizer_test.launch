@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="gui" default="true"/>
+    <arg name="is_gazebo" default="false"/>
+    <arg name="robot_description" default="robot_description"/>
+
+    <param name="$(arg robot_description)"
+           command="$(find xacro)/xacro.py '$(find mobile_manipulator_visualizer)/models/mico_bs.urdf.xacro'
+           is_gazebo:=$(arg is_gazebo)"/>
+    <param name="use_gui" value="$(arg gui)"/>
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+        <remap from="robot_description" to="$(arg robot_description)"/>
+    </node>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
+        <remap from="robot_description" to="$(arg robot_description)"/>
+    </node>
+    <node name="rviz" pkg="rviz" type="rviz"/>
+</launch>

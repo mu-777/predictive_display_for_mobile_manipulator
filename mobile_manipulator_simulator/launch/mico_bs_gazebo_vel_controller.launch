@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<launch>
+    <include file="$(find common)/launch/global_name_server.launch"/>
+
+    <arg name="ns" value="mobile_manipulator_mock"/>
+    <arg name="ns_robot" value="mobile_manipulator_mock"/>
+    <arg name="mico_jointstate_output_topic" value="/$(arg ns_robot)/mico_arm_driver/out/joint_state"/>
+
+
+    <!-- Load joint controller configurations from YAML file to parameter server -->
+    <rosparam file="$(find mobile_manipulator_simulator)/config/mico_bs_vel_ctrl.yaml" command="load"/>
+
+    <!-- load the controllers -->
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+          output="screen" ns="/$(arg ns)"
+          args="joint_state_controller
+          joint1_velocity_controller joint2_velocity_controller joint3_velocity_controller
+          joint4_velocity_controller joint5_velocity_controller joint6_velocity_controller"/>
+
+    <!--&lt;!&ndash; convert joint states to TF transforms for rviz, etc &ndash;&gt;-->
+    <!--<node name="mico_bs_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"-->
+    <!--respawn="false" output="screen">-->
+    <!--<remap from="/joint_states" to="$(arg mico_jointvel_input_topic)"/>-->
+    <!--</node>-->
+
+    <node name="gazebo_interface" pkg="mobile_manipulator_simulator" type="mico_bs_gazebo_interface.py"
+          ns="$(arg ns)">
+        <param name="joint1_cmd_topic" type="str" value="/$(arg ns)/joint1_velocity_controller/command"/>
+        <param name="joint2_cmd_topic" type="str" value="/$(arg ns)/joint2_velocity_controller/command"/>
+        <param name="joint3_cmd_topic" type="str" value="/$(arg ns)/joint3_velocity_controller/command"/>
+        <param name="joint4_cmd_topic" type="str" value="/$(arg ns)/joint4_velocity_controller/command"/>
+        <param name="joint5_cmd_topic" type="str" value="/$(arg ns)/joint5_velocity_controller/command"/>
+        <param name="joint6_cmd_topic" type="str" value="/$(arg ns)/joint6_velocity_controller/command"/>
+        <param name="bs_vw_cmd_topic" type="str" value="/blackship/cmd_vel"/>
+        <param name="joint_state_topic" type="str" value="/$(arg ns)/joint_states"/>
+        <param name="bs_state_topic" type="str" value="/blackship/encoder"/>
+    </node>
+
+</launch>

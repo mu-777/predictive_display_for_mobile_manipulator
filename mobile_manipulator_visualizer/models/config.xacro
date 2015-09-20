@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:include filename="$(find bs_model)/models/config.xacro"/>
+    <xacro:include filename="$(find mobile_manipulator_visualizer)/models/mico_arm.xacro"/>
+
+
+    <property name="link_mico_base" value="${link_base}"/>
+    <property name="link_mico_1" value="${link_1}"/>
+    <property name="link_mico_2" value="${link_2}"/>
+    <property name="link_mico_3" value="${link_3}"/>
+    <property name="link_mico_4" value="${link_4}"/>
+    <property name="link_mico_5" value="${link_5}"/>
+    <property name="link_mico_hand" value="${link_hand}"/>
+    <property name="link_mico_finger_1" value="${link_finger_1}"/>
+    <property name="link_mico_finger_2" value="${link_finger_2}"/>
+    <property name="link_mico_finger_tip_1" value="${link_finger_tip_1}"/>
+    <property name="link_mico_finger_tip_2" value="${link_finger_tip_2}"/>
+
+    <property name="mico_api_origin" value="${api_origin}"/>
+    <property name="joint_mico_base" value="${joint_base}"/>
+    <property name="joint_mico_1" value="${joint_1}"/>
+    <property name="joint_mico_2" value="${joint_2}"/>
+    <property name="joint_mico_3" value="${joint_3}"/>
+    <property name="joint_mico_4" value="${joint_4}"/>
+    <property name="joint_mico_5" value="${joint_5}"/>
+    <property name="joint_mico_6" value="${joint_6}"/>
+    <property name="joint_mico_finger_1" value="${joint_finger_1}"/>
+    <property name="joint_mico_finger_tip_1" value="${joint_finger_tip_1}"/>
+    <property name="joint_mico_finger_2" value="${joint_finger_2}"/>
+    <property name="joint_mico_finger_tip_2" value="${joint_finger_tip_2}"/>
+
+</robot>

@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:include filename="$(find bs_simulator)/gazebo/blackship.gazebo"/>
+    <xacro:include filename="$(find mobile_manipulator_visualizer)/models/config.xacro"/>
+
+    <property name="M_PI" value="3.1415"/>
+    <property name="depth_camera_name" value="kinect_on_ee"/>
+
+
+    <gazebo>
+        <plugin filename="libmy_gazebo_ros_p3dtf.so" name="slam_mock">
+            <alwaysOn>true</alwaysOn>
+            <!--<robotNamespace>robot</robotNamespace>-->
+            <nodeName>localized_point</nodeName>
+            <updateRateHz>100.0</updateRateHz>
+            <referenceLinkName>world</referenceLinkName>
+            <targetLinkName>robot_localized_frame_for_calc</targetLinkName>
+            <frameName>robot_localized_frame_origin</frameName>
+            <childFrameName>robot_localized_frame</childFrameName>
+            <xyzOffsets>0 0 0</xyzOffsets>
+            <rpyOffsets>0 0 0</rpyOffsets>
+        </plugin>
+    </gazebo>
+
+
+    <gazebo reference="robot_localized_frame_for_calc">
+        <sensor type="depth" name="${depth_camera_name}">
+            <always_on>true</always_on>
+            <update_rate>20.0</update_rate>
+            <camera>
+                <horizontal_fov>${60.0*M_PI/180.0}</horizontal_fov>
+                <image>
+                    <format>R8G8B8</format>
+                    <width>640</width>
+                    <height>480</height>
+                </image>
+                <clip>
+                    <near>0.001</near>
+                    <far>8.0</far>
+                </clip>
+            </camera>
+            <plugin name="kinect_camera_controller" filename="libgazebo_ros_openni_kinect.so">
+                <cameraName>${depth_camera_name}</cameraName>
+                <alwaysOn>true</alwaysOn>
+                <updateRate>10</updateRate>
+                <imageTopicName>rgb/image_raw</imageTopicName>
+                <depthImageTopicName>depth/image_raw</depthImageTopicName>
+                <pointCloudTopicName>depth/points</pointCloudTopicName>
+                <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
+                <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+                <frameName>camera_depth_optical_frame</frameName>
+                <baseline>0.1</baseline>
+                <distortion_k1>0.0</distortion_k1>
+                <distortion_k2>0.0</distortion_k2>
+                <distortion_k3>0.0</distortion_k3>
+                <distortion_t1>0.0</distortion_t1>
+                <distortion_t2>0.0</distortion_t2>
+                <pointCloudCutoff>0.4</pointCloudCutoff>
+            </plugin>
+        </sensor>
+
+        <!--http://answers.gazebosim.org/question/3296/kinect-sensor-gazebo-ros/-->
+        <!--<sensor name="camera" type="depth">-->
+        <!--<pose>0.2 0 0.265 0 0 0</pose>-->
+        <!--<update_rate>20</update_rate>-->
+        <!--<camera>-->
+        <!--<horizontal_fov>1.047198</horizontal_fov>-->
+        <!--<image>-->
+        <!--<width>640</width>-->
+        <!--<height>480</height>-->
+        <!--<format>R8G8B8</format>-->
+        <!--</image>-->
+        <!--<clip>-->
+        <!--<near>0.05</near>-->
+        <!--<far>3</far>-->
+        <!--</clip>-->
+        <!--</camera>-->
+        <!--<plugin name="camera" filename='libDepthCameraPlugin.so'>-->
+        <!--<alwaysOn>1</alwaysOn>-->
+        <!--<updateRate>10.0</updateRate>-->
+        <!--<image_topic_name>image_raw</image_topic_name>-->
+        <!--<point_cloud_topic_name>points</point_cloud_topic_name>-->
+        <!--<camera_info_topic_name>camera_info</camera_info_topic_name>-->
+        <!--<cameraName>depth_cam</cameraName>-->
+        <!--<frameName>/base_link</frameName>-->
+        <!--<point_cloud_cutoff>0.001</point_cloud_cutoff>-->
+        <!--<distortionK1>0.00000001</distortionK1>-->
+        <!--<distortionK2>0.00000001</distortionK2>-->
+        <!--<distortionK3>0.00000001</distortionK3>-->
+        <!--<distortionT1>0.00000001</distortionT1>-->
+        <!--<distortionT2>0.00000001</distortionT2>-->
+        <!--</sensor>-->
+    </gazebo>
+
+    <gazebo reference="${link_mico_1}">
+        <turnGravityOff>false</turnGravityOff>
+        <selfCollide>true</selfCollide>
+        <laserRetro>1.0</laserRetro>
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+    </gazebo>
+
+    <gazebo reference="${link_mico_2}">
+        <turnGravityOff>false</turnGravityOff>
+        <selfCollide>true</selfCollide>
+        <laserRetro>1.0</laserRetro>
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+    </gazebo>
+
+    <gazebo reference="${link_mico_3}">
+        <turnGravityOff>false</turnGravityOff>
+        <selfCollide>true</selfCollide>
+        <laserRetro>1.0</laserRetro>
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+
+    </gazebo>
+
+    <gazebo reference="${link_mico_4}">
+        <turnGravityOff>false</turnGravityOff>
+        <selfCollide>true</selfCollide>
+        <laserRetro>1.0</laserRetro>
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+    </gazebo>
+
+    <gazebo reference="${link_mico_5">
+        <turnGravityOff>false</turnGravityOff>
+        <selfCollide>true</selfCollide>
+        <laserRetro>1.0</laserRetro>
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+    </gazebo>
+
+    <gazebo reference="${link_mico_hand">
+        <turnGravityOff>false</turnGravityOff>
+        <selfCollide>true</selfCollide>
+        <laserRetro>1.0</laserRetro>
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+    </gazebo>
+
+    <gazebo reference="${link_mico_finger_1}">
+        <turnGravityOff>false</turnGravityOff>
+        <selfCollide>true</selfCollide>
+        <laserRetro>1.0</laserRetro>
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+    </gazebo>
+
+    <gazebo reference="${link_mico_finger_2}">
+        <turnGravityOff>false</turnGravityOff>
+        <selfCollide>true</selfCollide>
+        <laserRetro>1.0</laserRetro>
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+    </gazebo>
+
+    <gazebo reference="${link_mico_finger_tip_1}">
+        <turnGravityOff>false</turnGravityOff>
+        <selfCollide>true</selfCollide>
+        <laserRetro>1.0</laserRetro>
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+    </gazebo>
+
+    <gazebo reference="${link_mico_finger_tip_2}">
+        <turnGravityOff>false</turnGravityOff>
+        <selfCollide>true</selfCollide>
+        <laserRetro>1.0</laserRetro>
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+    </gazebo>
+
+
+</robot>

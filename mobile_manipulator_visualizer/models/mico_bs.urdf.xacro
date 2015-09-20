@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+
+<robot name="mico_bs" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:include filename="$(find bs_model)/models/blackship.xacro"/>
+    <xacro:include filename="$(find mobile_manipulator_visualizer)/models/config.xacro"/>
+
+    <!--<xacro:if value="$(arg is_gazebo)">-->
+    <xacro:include filename="$(find bs_simulator)/gazebo/blackship.gazebo"/>
+    <xacro:include filename="$(find mobile_manipulator_visualizer)/models/mico_arm2.xacro"/>
+    <xacro:include filename="$(find mobile_manipulator_simulator)/gazebo/mico_bs_config.gazebo"/>
+    <xacro:include filename="$(find mobile_manipulator_simulator)/gazebo/mico_bs_angvel_control.gazebo"/>
+    <!--</xacro:if>-->
+    <!--<xacro:unless value="$(arg is_gazebo)">-->
+    <!--<xacro:include filename="$(find jaco_model)/urdf/mico_arm.xacro"/>-->
+    <!--</xacro:unless>-->
+
+
+    <property name="mico_base_offset_x_from_blackship_topboard_center" value="0.150"/>
+    <property name="mico_base_offset_y_from_blackship_topboard_center" value="0.000"/>
+    <property name="mico_base_offset_z_from_blackship_topboard_center" value="0.000"/>
+    <property name="kinect_offset_x_from_mico_ee" value="0.000"/>
+    <property name="kinect_offset_y_from_mico_ee" value="-0.050"/>
+    <property name="kinect_offset_z_from_mico_ee" value="0.000"/>
+
+
+    <link name="blackship_base_for_calc"/>
+
+    <xacro:blackship parent_link="blackship_base_for_calc"/>
+
+    <joint name="joint_mico_base" type="fixed">
+        <origin rpy="0 0 0"
+                xyz="
+                ${mico_base_offset_x_from_blackship_topboard_center}
+                ${mico_base_offset_y_from_blackship_topboard_center}
+                ${mico_base_offset_z_from_blackship_topboard_center}"/>
+        <parent link="${link_blackship_topboard}"/>
+        <child link="mico_root"/>
+    </joint>
+
+    <link name="mico_root"/>
+
+    <xacro:mico_arm parent="mico_root"/>
+
+    <joint name="joint_localized_point" type="revolute">
+        <origin rpy="1.57079632679 -1.57079632679 0"
+                xyz="
+                ${kinect_offset_x_from_mico_ee}
+                ${kinect_offset_y_from_mico_ee}
+                ${kinect_offset_z_from_mico_ee}"/>
+        <parent link="mico_end_effector"/>
+        <child link="robot_localized_frame_for_calc"/>
+        <limit lower="0.0" upper="0.0" effort="30" velocity="0"/>
+    </joint>
+
+    <link name="robot_localized_frame_for_calc">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <box size="1e-3 1e-3 1e-3"/>
+            </geometry>
+            <material name="body_color">
+                <color rgba="1.0 1.0 1.0 0"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="1e-3 1e-3 1e-3"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="0.001"/>
+            <inertia ixx="1e-6" ixy="0.0" ixz="0.0"
+                     iyy="1e-6" iyz="0.0"
+                     izz="1e-6"/>
+        </inertial>
+    </link>
+
+    <!--<joint name="joint_temp" type="fixed">-->
+    <!--<origin rpy="0 0 0"-->
+    <!--xyz="0 0 0"/>-->
+    <!--<parent link="robot_localized_frame_for_calc"/>-->
+    <!--<child link="link_temp"/>-->
+    <!--</joint>-->
+
+    <!--<link name="link_temp"/>-->
+
+
+</robot>

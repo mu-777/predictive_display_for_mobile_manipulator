@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+    <include file="$(find common)/launch/global_name_server.launch"/>
+    <node ns="robot_controller" name="mico_bs_controller" pkg="robot_controller" type="mobile_manipulator_controller.py"
+          output="screen">
+    </node>
+</launch>
