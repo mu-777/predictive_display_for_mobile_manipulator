@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+    <include file="$(find common)/launch/global_name_server.launch"/>
+    <node ns="mobile_manipulator_mock" name="mico_mock" pkg="mobile_manipulator_mockup" type="mico_mock.py" output="screen"/>
+    <node ns="mobile_manipulator_mock" name="slam_mock" pkg="mobile_manipulator_mockup" type="slam_mock.py" output="screen"/>
+</launch>
